@@ -1,0 +1,346 @@
+/* 1. RESET CRÍTICO: Elimina cualquier margen o relleno residual */
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* 2. CÓDIGO DEFINITIVO PARA EL FONDO COMPLETO */
+html {
+  /* La clave: Movemos el fondo fijo al HTML */
+  background: url("../img/bg_main.jpg") no-repeat center center fixed;
+  /* Aseguramos que la imagen siempre cubra la ventana */
+  background-size: cover;
+  /* Aseguramos que el HTML ocupe el 100% de la altura */
+  height: 100%;
+}
+
+body {
+  font-family: 'Lora';
+  /* 🛑 ELIMINAMOS EL FONDO DEL BODY: Debe ser transparente para que se vea el fondo del HTML */
+  background: transparent; 
+  /* Aseguramos que el contenido ocupe al menos el 100% */
+  min-height: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Raleway';
+}
+
+p {
+  line-height: 1.75;
+}
+
+.text-faded {
+  color: rgba(255, 255, 255, 0.863);
+}
+
+.site-heading {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  text-transform: uppercase;
+  line-height: 1;
+  font-family: 'Raleway';
+}
+
+.site-heading .site-heading-upper {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.site-heading .site-heading-lower {
+  font-size: 5rem;
+  font-weight: 300; 
+  line-height: 4rem;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.page-section {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+
+.section-heading {
+  text-transform: uppercase;
+}
+
+.section-heading .section-heading-upper {
+  display: block;
+  font-size: 1rem;
+  font-weight: 800;
+  padding-bottom:.5rem;
+
+}
+
+.section-heading .section-heading-lower {
+  display: block;
+  font-size: 3rem;
+  font-weight: 100;
+}
+
+
+.section-heading .section-heading-under {
+  display: block;
+  font-size: 1rem;
+  text-transform: none;
+  font-weight: 300;
+  margin-top:.5rem;
+}
+
+.bg-faded {
+  background-color: rgba(255, 255, 255, 0.95); /* Más sólido */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Navegación - Fondo oscuro y borde de acento */
+#mainNav {
+    background-color: #4B3832; /* Marrón oscuro para armonizar */
+    border-bottom: 2px solid var(--accent-color); /* Línea de acento cálida */
+}
+
+#mainNav .navbar-brand {
+  color: #ffffff;
+}
+
+#mainNav .navbar-nav .nav-item .nav-link {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 800;
+}
+
+#mainNav .navbar-nav .nav-item.active .nav-link {
+  color: #ffffff;
+  text-decoration: underline;
+}
+/* Enlaces del Nav en hover */
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: var(--accent-color) !important; 
+}
+/* Iconos del Footer */
+.fa-circle { 
+    /* Si usas la clase .fa-circle, puedes ponerle color de acento */
+    color: var(--accent-color); 
+}
+@media (min-width: 992px) {
+  #mainNav .navbar-nav .nav-item .nav-link {
+    font-size: 0.9rem;
+  }
+  #mainNav .navbar-nav .nav-item .nav-link:hover {
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: underline;
+  }
+  #mainNav .navbar-nav .nav-item.active .nav-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+}
+
+.btn-xl {
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.intro {
+  position: relative;
+}
+
+@media (min-width: 992px) {
+  .intro .intro-img {
+    width: 75%;
+    float: left;
+  }
+  .intro .intro-text {
+    left: 600;
+    width: 60%;
+    margin-top: 3rem;
+    background-color: rgba(24, 64, 8);
+    color: cornsilk;
+    position: absolute;
+  }
+  .intro .intro-text .intro-button {
+    width: 100%;
+    left: 0;
+    position: absolute;
+    bottom: -2rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .intro .intro-text {
+    width: 45%;
+  }
+}
+
+.cta .cta-inner {
+  position: relative;
+  padding: 3rem;
+  margin: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.95); /* Más sólido */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+.cta .cta-inner:before {
+  border-radius: 0.5rem;
+  content: '';
+  position: absolute;
+  top: -0.5rem;
+  bottom: -0.5rem;
+  left: -0.5rem;
+  right: -0.5rem;
+  border: 0.25rem solid rgba(255, 255, 255, 0.85);
+}
+
+.cta .cta-innerv {
+  position: relative;
+  padding: 3rem;
+  margin: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+@media (min-width: 992px) {
+  .about-heading .about-heading-img {
+    position: relative;
+    z-index: 0;
+  }
+  .about-heading .about-heading-content {
+    margin-top: -5rem;
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@media (min-width: 992px) {
+  .product-item .product-item-title {
+    position: relative;
+    z-index: 1;
+    margin-bottom: -3rem;
+  }
+  .product-item .product-item-img {
+    position: relative;
+    z-index: 0;
+    max-width: 60vw;
+  }
+  .product-item .product-item-description {
+    position: relative;
+    z-index: 1;
+    margin-top: -3rem;
+    max-width: 50vw;
+  }
+}
+
+
+
+@media (min-width: 992px) {
+  .list-hours {
+    width: 50%;
+    font-size: 1.1rem;
+  }
+}
+
+.address strong {
+  font-size: 1.2rem;
+}
+
+.footer {
+   background-color: rgba(24, 64, 8, 0.8);
+}
+
+
+
+.btn {
+  box-shadow: 0px 3px 3px 0px rgba(33, 37, 41, 0.1);
+}
+
+
+
+.font-weight-light {
+  font-weight: 100 !important;
+}
+
+.mbtm{
+  padding-top: 5rem;
+}
+
+.mbt{
+  padding-top: 2rem;
+}
+
+.mbt1{
+  padding-top: 1.25rem;
+}
+
+a.link{
+  color: rgba(255, 255, 255, 0.7);
+}
+
+a.link:hover{
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.section-content{
+  font-family: 'Lora' !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 28px !important;
+}
+
+ul.errorlist{
+  padding-top: .75rem;
+  font-style: italic;
+  color: red;
+}
+
+/* Colores de acento cálidos para tu estilo rústico */
+a {
+  color: #7A4F2C; /* Marrón oscuro para enlaces */
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: #A47D59; /* Un marrón más suave al pasar el ratón */
+}
+
+/* Mejora de la navegación */
+#mainNav {
+    background-color: #4B3832; /* Un marrón oscuro que armoniza con la imagen de fondo */
+    border-bottom: 2px solid #A47D59; /* Línea de acento cálida debajo del nav */
+}
+
+/* Acento en la Navegación (para enlaces y el borde inferior) */
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #A47D59; /* Usar el dorado suave como acento al pasar el ratón */
+}
+
+/* Estilo para los campos de formulario (incluyendo la barra de búsqueda) */
+.form-control {
+    border-radius: 0.25rem; /* Pequeño redondeo */
+}
+
+.form-control:focus {
+    /* Color de borde al hacer clic */
+    border-color: var(--accent-color); 
+    /* Elimina la caja de sombra azul/verde y la reemplaza con el color de acento */
+    box-shadow: 0 0 0 0.2rem rgba(164, 125, 89, 0.4); /* rgba(Marrón Tostado, 40% opacidad) */
+}
+
+/* Estilo para los campos de formulario (incluyendo la barra de búsqueda) */
+.form-control {
+    border-radius: 0.25rem; /* Pequeño redondeo */
+}
+
+.form-control:focus {
+    /* Color de borde al hacer clic */
+    border-color: var(--accent-color); 
+    /* Elimina la caja de sombra azul/verde y la reemplaza con el color de acento */
+    box-shadow: 0 0 0 0.2rem rgba(164, 125, 89, 0.4); /* rgba(Marrón Tostado, 40% opacidad) */
+}

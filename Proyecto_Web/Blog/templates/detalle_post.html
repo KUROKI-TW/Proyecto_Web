@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+    
+    <div class="container" style="margin-top: 4rem; margin-bottom: 4rem;">
+        
+        <h1 class="mt-4">{{ post.titulo }}</h1>
+        
+        {% if post.creado %}
+            <p class="text-muted">Publicado el {{ post.creado|date:"d M Y" }}</p>
+        {% endif %}
+
+        <hr>
+        
+        {# {% if post.imagen %} #}
+        {#     <img src="{{ post.imagen.url }}" class="img-fluid rounded" alt="{{ post.titulo }}" style="max-height: 400px; object-fit: cover;"> #}
+        {#     <hr> #}
+        {# {% endif %} #}
+
+        <div class="lead">
+            {{ post.contenido|safe }}
+        </div>
+        
+        <hr>
+
+        <a href="{% url 'Blog' %}" class="btn btn-secondary">← Volver al Blog</a>
+
+    </div>
+
+{% endblock %}
