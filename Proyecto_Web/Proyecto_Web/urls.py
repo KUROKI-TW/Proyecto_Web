@@ -25,4 +25,5 @@ urlpatterns = [
     path('blog/',include('Blog.urLs')),
     path('contactos/',include('Contacto.urlS')),
     path('tienda/',include('Tienda.URLS')),
+    path('carro/',include('Carro.URLSC')),
 ]

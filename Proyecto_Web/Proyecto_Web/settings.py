@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'Blog',
     'Contacto',
     'Tienda',
+    'Carro',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'Carro.context_processor.importeTotal',
             ],
         },
     },
