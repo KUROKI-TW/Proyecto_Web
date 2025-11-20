@@ -24,6 +24,7 @@ urlpatterns = [
     path('servicios/',include('Servicios.uRls')),
     path('blog/',include('Blog.urLs')),
     path('contactos/',include('Contacto.urlS')),
+    path('autenticacion/',include('Autenticacion.urlS')),
     path('tienda/',include('Tienda.URLS')),
     path('carro/',include('Carro.URLSC')),
 ]

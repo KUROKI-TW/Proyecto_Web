@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from django.contrib.messages import constants as errores
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,6 +45,8 @@ INSTALLED_APPS = [
     'Contacto',
     'Tienda',
     'Carro',
+    'Autenticacion',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -143,3 +146,15 @@ EMAIL_USE_TLS = True
 EMAIL_PORT= 587
 EMAIL_HOST_USER ='victor56927467@gmail.com'
 EMAIL_HOST_PASSWORD = ''
+
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+MESSAGE_TAGS = {
+    errores.DEBUG: 'debug',
+    errores.INFO: 'info',
+    errores.WARNING: 'warning',
+    errores.SUCCESS: 'success',
+    errores.ERROR: 'danger',
+}

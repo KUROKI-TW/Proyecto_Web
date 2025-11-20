@@ -21,6 +21,7 @@ class Carro():
             for key, value in self.carro.items():
                 if key == str(producto.id):
                     value["cantidad"] = value["cantidad"] +1
+                    value["precio"] = float(value["precio"]) +producto.precio
                     break
         self.guardar_Carro()
 
@@ -41,6 +42,7 @@ class Carro():
         for key, value in self.carro.items():
                 if key == str(producto.id):
                     value["cantidad"] = value["cantidad"] -1
+                    value["precio"] = float(value["precio"]) -producto.precio
                     if value["cantidad"]<1:
                         self.eliminar(producto)
                     break
