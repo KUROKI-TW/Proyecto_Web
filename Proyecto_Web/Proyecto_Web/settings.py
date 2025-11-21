@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'Carro',
     'Autenticacion',
     'crispy_forms',
+    'Pedidos',
 ]
 
 MIDDLEWARE = [
@@ -145,7 +146,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT= 587
 EMAIL_HOST_USER ='victor56927467@gmail.com'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = 'Vt040714@'
 
 
 

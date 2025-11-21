@@ -21,6 +21,11 @@
                     <p class="card-text">{{ post_item.descripcion|slice:":100" }}...</p> 
                     
                     <h5 class="card-title">{{ post_item.precio }}</h5>
+                    
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'carro:agregar' post_item.id %}" class="btn btn-success btn-block mt-3">Agregar</a>
+                    {% endif %}
+
                 </div>
             </div>
         </div>

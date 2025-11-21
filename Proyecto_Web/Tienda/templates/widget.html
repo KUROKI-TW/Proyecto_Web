@@ -1,52 +1,68 @@
-<table class="table table-bordered" style="color:aqua;">
+{% if request.user.is_authenticated %}
+    <table class="table table-bordered" style="color:aqua;">
 
-    <thead>
-        <tr>
-            <th colspan="4" class="text-center"> 
-                CARRO COMPRA 
-            </th>
-        </tr>
-        <tr>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Precio</th> <th>Acción</th> </tr>
-    </thead>
-    <tbody>
-        {% if request.session.carro.items %}
-            {% for key,value in request.session.carro.items %}
-                <tr class="text-center">
-                    <td>{{value.nombre}}</td>
-                    <td>
-                        {{value.cantidad}}
-                    </td>
-                    <td>{{value.precio}}</td>
-                    <td>
-                        <a href="{% url 'carro:restar' value.producto_id %}" class="btn btn-warning btn-sm">-</a>
-                        <a href="{% url 'carro:agregar' value.producto_id %}" class="btn btn-success btn-sm">+</a>
-                        <a href="{% url 'carro:eliminar' value.producto_id %}" class="btn btn-danger btn-sm">x</a>
+        <thead>
+            <tr>
+                <th colspan="4" class="text-center"> 
+                    CARRO COMPRA 
+                </th>
+            </tr>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th> <th>Acción</th> </tr>
+        </thead>
+        <tbody>
+            {% if request.session.carro.items %}
+                {% for key,value in request.session.carro.items %}
+                    <tr class="text-center">
+                        <td>{{value.nombre}}</td>
+                        <td>
+                            {{value.cantidad}}
+                        </td>
+                        <td>{{value.precio}}</td>
+                        <td>
+                            <a href="{% url 'carro:restar' value.producto_id %}" class="btn btn-warning btn-sm">-</a>
+                            <a href="{% url 'carro:agregar' value.producto_id %}" class="btn btn-success btn-sm">+</a>
+                            <a href="{% url 'carro:eliminar' value.producto_id %}" class="btn btn-danger btn-sm">x</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="4"> <div class="alert alert-danger text-center">
+                            No hay productos 
+                        </div>
                     </td>
                 </tr>
-            {% endfor %}
-        {% else %}
+            {% endif %}
+        </tbody>
+        <tfoot>
             <tr>
-                <td colspan="4"> <div class="alert alert-danger text-center">
-                        No hay productos 
-                    </div>
+                <td colspan="4">
+                    Total: $ {{importeTotal}}
                 </td>
             </tr>
-        {% endif %}
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="4">
-                Total: $ {{importeTotal}}
-            </td>
-        </tr>
-    </tfoot>
-</table>
+            <tr>
+                {% if request.session.carro.items %}
+                    <td colspan="4">
+                        <a href="{% url 'carro:limpiar' 0 %}" class="btn btn-info btn-block" style="color: red;">Realizar pedido</a> 
+                    </td>
+                {% endif %}
+            </tr>
+        </tfoot>
+    </table>
 
-{% if request.session.carro.items %}
-    <div class="text-center mt-3">
-        <a href="{% url 'carro:limpiar' 0 %}" class="btn btn-info btn-block">Limpiar Carrito</a> 
+    {% if request.session.carro.items %}
+        <div class="text-center mt-3">
+            <a href="{% url 'carro:limpiar' 0 %}" class="btn btn-info btn-block">Limpiar Carrito</a> 
+        </div>
+    {% endif %}
+
+{% else %}
+    <div class="table table-bordered text-center p-4" style="color:aqua;">
+        <div class="alert alert-warning m-0">
+            **Por favor inicie sección para realizar la compra**
+        </div>
     </div>
 {% endif %}

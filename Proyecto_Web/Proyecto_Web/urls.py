@@ -27,4 +27,5 @@ urlpatterns = [
     path('autenticacion/',include('Autenticacion.urlS')),
     path('tienda/',include('Tienda.URLS')),
     path('carro/',include('Carro.URLSC')),
+    path('pedidos/',include('Pedidos.URLS')),
 ]
