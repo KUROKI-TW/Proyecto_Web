@@ -10,6 +10,10 @@ class Categoria(models.Model):
         verbose_name = 'categoria'
         verbose_name_plural = 'categorias'
 
+
+    def __str__(self):
+        return self.nombre
+
 class Post(models.Model):
     titulo = models.CharField(max_length=50)
     contenido = models.CharField(max_length=50000)
@@ -22,3 +26,7 @@ class Post(models.Model):
     class Meta:
         verbose_name = 'post'
         verbose_name_plural = 'posts'
+
+
+    def __str__(self):
+            return self.titulo

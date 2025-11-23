@@ -7,7 +7,7 @@ html, body {
 /* 2. CÓDIGO DEFINITIVO PARA EL FONDO COMPLETO */
 html {
   /* La clave: Movemos el fondo fijo al HTML */
-  background: url("../img/bg_main.jpg") no-repeat center center fixed;
+  background: url("../img/1147926.jpg") no-repeat center center fixed;
   /* Aseguramos que la imagen siempre cubra la ventana */
   background-size: cover;
   /* Aseguramos que el HTML ocupe el 100% de la altura */

@@ -1,49 +1,72 @@
 {% extends "base.html" %}
-
 {% load static %}
 
 {% block content %}
 
 <div class="container" style="margin-top: 2rem; margin-bottom: 2rem;">
-    
-    <div class="row">
+
+    <div class="row mb-4 justify-content-between align-items-center">
         
-        {% for post_item in Post %} 
+        <div class="col-md-3"> 
+            <form method="GET" action="">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="buscar" placeholder="Buscar post..." value="{{ request.GET.buscar|default:'' }}">
+                    <button class="btn btn-outline-dark" type="submit">🔍</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-3 text-end">
+            {% if perms.Blog.add_post %}
+                <a href="{% url 'agregar_post' %}" class="btn btn-success">Agregar Post </a>
+            {% endif %}
+        </div>
+
+    </div>
+    <div class="row"> {% for post_item in Post %} 
         
-        <div class="col-md-3 mb-4">
-            <div class="card h-100 shadow-sm">
-                
-                {# <img src="{{ post_item.imagen.url }}" class="card-img-top" alt="{{ post_item.titulo }}"> #}
-                
-                <div class="card-body">
-                    <h5 class="card-title">{{ post_item.titulo }}</h5>
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 shadow-sm">
                     
-                    <p class="card-text">{{ post_item.contenido|slice:":100" }}...</p> 
+                    {# <img src="{{ post_item.imagen.url }}" class="card-img-top" alt="..."> #}
                     
-                    <a href="{% url 'detalle_post_url' post_item.id %}" class="btn btn-sm btn-primary">Leer más</a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post_item.titulo }}</h5>
+                        <p class="card-text">{{ post_item.contenido|slice:":100" }}...</p> 
+                        
+                        <a href="{% url 'detalle_post_url' post_item.id %}" class="btn btn-sm btn-primary">Leer más</a>
+                        
+                        {% if request.user == post_item.autor %}
+                            <a href="{% url 'eliminar_post' post_item.id %}" class="btn btn-sm btn-danger float-end" 
+                            onclick="return confirm('¿Estás seguro?')">
+                            Eliminar
+                            </a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
+
+        {% empty %}
+            <div class="col-12 text-center mt-5">
+                <div class="alert alert-warning" role="alert">
+                    <h3>😕 No se encontraron posts con ese nombre.</h3>
+                    <p>Intenta buscar otra cosa o <a href="{% url 'Blog' %}">ver todos los posts</a>.</p>
+                </div>
+            </div>
 
         {% endfor %}
         
+    </div> </div>
+
+<section>
+    <div style="width: 75%; margin: 0 auto; text-align: center; color: rgb(54, 49, 49);">
+        <h4>CATEGORÍAS DE LOS POSTS:</h4>
+        {% for post_item in Post %}
+            {% for categoria in post_item.categoria.all %}
+                <a href="{% url 'categoria' categoria.id %}"><span class="badge bg-secondary">{{ categoria.nombre }} </span> </a> &nbsp;&nbsp;&nbsp;
+            {% endfor %}
+        {% endfor %}
     </div>
-</div>
-        <section>
+</section>
 
-            <div style="width: 75%; margin: 0 auto; text-align: center; color: rgb(54, 49, 49);">
-                <h4>CATEGORÍAS DE LOS POSTS:</h4>
-
-                {% for post_item in Post %}
-
-                    {% for categoria in post_item.categoria.all %}
-
-                        <a href="{% url 'categoria' categoria.id %}"><span class="badge bg-secondary">{{ categoria.nombre }} </span> </a> &nbsp;&nbsp;&nbsp;
-
-                    {% endfor %}
-
-                {% endfor %}
-            </div>
-
-        </section>
 {% endblock %}
