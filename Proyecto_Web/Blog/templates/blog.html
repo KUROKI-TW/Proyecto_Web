@@ -36,7 +36,7 @@
                         <p class="card-text">{{ post_item.contenido|slice:":100" }}...</p> 
                         
                         <a href="{% url 'detalle_post_url' post_item.id %}" class="btn btn-sm btn-primary">Leer más</a>
-                        
+                    
                         {% if request.user == post_item.autor %}
                             <a href="{% url 'eliminar_post' post_item.id %}" class="btn btn-sm btn-danger float-end" 
                             onclick="return confirm('¿Estás seguro?')">

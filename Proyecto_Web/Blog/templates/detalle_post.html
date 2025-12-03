@@ -24,7 +24,9 @@
         </div>
         
         <hr>
-
+        {% if request.user == post.autor %}
+            <a href="{% url 'editar_post' post.id %}" class="btn btn-warning">Editar</a>
+        {% endif %}
         <a href="{% url 'Blog' %}" class="btn btn-secondary">← Volver al Blog</a>
 
     </div>

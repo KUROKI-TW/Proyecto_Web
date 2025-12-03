@@ -2,12 +2,12 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Crear Nuevo Post</h2>
+    <h2>Editar Post</h2>
     <form method="POST" enctype="multipart/form-data" onsubmit="disableBtn()">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" id="save-btn" class="btn btn-primary">Guardar Post</button>
-        <a href="{% url 'Blog' %}" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" id="save-btn" class="btn btn-success">Guardar cambios</button>
+        <a href="{% url 'detalle_post_url' post.id %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 
