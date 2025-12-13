@@ -1,104 +1,115 @@
 <html>
-
 <head>
-
     {% load static %}
-
     {% load crispy_forms_tags %}
-
     <!-- Bootstrap -->
     <link href="{% static 'PRoyecto_Web/vendor/bootstrap/css/bootstrap.min.css' %} " rel="stylesheet">
-
-     <!-- Fonts -->
-    
-     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet"> 
-     <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet">
-     
-
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet">
     <!-- Styles -->
     <link href="{% static 'PRoyecto_Web/css/gestion.css' %}" rel="stylesheet">
-    
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-
     <h1 class="site-heading text-center text-white d-none d-lg-block">
-      
         <span class="site-heading-lower">Gestión de Pedidos</span>
-      </h1>
+    </h1>
 
     <div style="text-align: right; margin-right: 100px;">
-
-      {% if user.is_authenticated %}
-
-        Bienvenido {{ user.username }} &nbsp; &nbsp; <a href="{% url 'logaut' %}" style="color:aqua;"> Cerrar Sesion</a>
-
-      {% else %}
-
-        <a href="{% url 'logear' %}" style="color:aqua;" >Login</a> &nbsp; &nbsp; <a href="{% url 'Autenticacion'%}" style="color:aqua;" >Registrate</a>
-
-      {% endif %}
-
+        {% if user.is_authenticated %}
+            Bienvenido {{ user.username }} &nbsp; &nbsp; 
+            <a href="{% url 'logaut' %}" style="color:aqua;">Cerrar Sesión</a>
+        {% else %}
+            <a href="{% url 'logear' %}" style="color:aqua;">Login</a> &nbsp; &nbsp; 
+            <a href="{% url 'Autenticacion' %}" style="color:aqua;">Regístrate</a>
+        {% endif %}
     </div>
 
-    <html>
+    <form action="" method="post" style="margin-top: 30px;">
+        {% csrf_token %}
+        
+        <div style="width:60%; margin:auto;">
+            {% if messages %}
+                {% for mensaje in messages %}
+                    <div class="alert alert-{{mensaje.tags}}" style="margin-bottom: 10px;">
+                        {{mensaje}}
+                    </div>
+                {% endfor %}
+            {% endif %}
 
-<head>
+            <!-- Campos del formulario -->
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Nombre de usuario:</label>
+                {{ form.username }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">Correo electrónico:</label>
+                {{ form.email }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}">Contraseña:</label>
+                {{ form.password1 }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}">Confirmar contraseña:</label>
+                {{ form.password2 }}
+            </div>
+            
+            <!-- Campo captcha matemático -->
+            <div class="form-group" style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                <label style="font-weight: bold; color: #333;">
+                    <i class="fa fa-lock"></i> Verificación: ¿Eres humano?
+                </label>
+                <p style="font-size: 1.2em; color: #007bff; font-weight: bold; margin: 10px 0;">
+                    Resuelve: {{ pregunta_captcha }}
+                </p>
+                {{ form.respuesta_captcha }}
+                <small class="form-text text-muted">Resuelve esta operación para demostrar que no eres un robot.</small>
+            </div>
 
-   
- <form action="" method="post">
-
-    {%csrf_token%}
-
-    <div style="width:60% ;margin:auto">
-        {{form|crispy }}
-
-    <button type="submit" class="btn btn-success">Registrar</button>
-    </div>
-
-
-</form>
+            <button type="submit" class="btn btn-success btn-block">Registrar</button>
+        </div>
+    </form>
 
     <!-- Footer -->
     <footer class="footer text-faded text-center py-5">
-      <div class="container">
-        <p class="m-0">
-	        <a href="#" class="link">
-	          <span class="fa-stack fa-lg">
-	            <i class="fa fa-circle fa-stack-2x"></i>
-	            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-	          </span>
-	        </a>
-	        <a href="#" class="link">
-	          <span class="fa-stack fa-lg">
-	            <i class="fa fa-circle fa-stack-2x"></i>
-	            <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-	          </span>
-	        </a>
-	        <a href="#" class="link">
-	          <span class="fa-stack fa-lg">
-	            <i class="fa fa-circle fa-stack-2x"></i>
-	            <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
-	          </span>
-	        </a>
-	    </p>
-        <p class="m-0 mbt">
-        	<a href="sample.html" class="link">Política de privacidad</a> ·
-        	<a href="sample.html" class="link">Aviso legal</a> ·
-        	<a href="sample.html" class="link">Cookies</a>
-		</p>
-        <p class="m-0 mbt1">&copy; Gestión de Pedidos 2025</p>
-      </div>
-	</footer>
+        <div class="container">
+            <p class="m-0">
+                <a href="#" class="link">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                <a href="#" class="link">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                <a href="#" class="link">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </p>
+            <p class="m-0 mbt">
+                <a href="sample.html" class="link">Política de privacidad</a> ·
+                <a href="sample.html" class="link">Aviso legal</a> ·
+                <a href="sample.html" class="link">Cookies</a>
+            </p>
+            <p class="m-0 mbt1">&copy; Gestión de Pedidos 2025</p>
+        </div>
+    </footer>
 
     <!-- Bootstrap -->
     <script src="{% static 'PRoyecto_Web/vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'PRoyecto_Web//vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-
+    <script src="{% static 'PRoyecto_Web/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 </body>
-
-
 </html>
-
