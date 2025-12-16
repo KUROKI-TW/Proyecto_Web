@@ -5,8 +5,8 @@
 
 <div class="container" style="margin-top: 2rem; margin-bottom: 2rem;">
 
+    <!-- Búsqueda y Agregar -->
     <div class="row mb-4 justify-content-between align-items-center">
-        
         <div class="col-md-3"> 
             <form method="GET" action="">
                 <div class="input-group">
@@ -15,37 +15,69 @@
                 </div>
             </form>
         </div>
-
         <div class="col-md-3 text-end">
-            {% if perms.Blog.add_post %}
-                <a href="{% url 'agregar_post' %}" class="btn btn-success">Agregar Post </a>
+            {% if perms.Blog.add_post %}  <!-- SOLO SI TIENE PERMISO -->
+                <a href="{% url 'agregar_post' %}" class="btn btn-success">Agregar Post</a>
             {% endif %}
         </div>
-
     </div>
+
+    <!-- Lista de Posts -->
     <div class="row"> 
         {% for post_item in Post %} 
         
-            <div class="col-md-3 mb-4">
-                <div class="card h-100 shadow-sm">
+        <!-- GUARDAR URLS EN DATA ATTRIBUTES -->
+        <div class="col-md-3 mb-4" 
+             data-like-url="{% url 'toggle_like' post_item.id %}"
+             data-comment-url="{% url 'agregar_comentario' post_item.id %}">
+            
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post_item.titulo }}</h5>
+                    <p class="card-text">{{ post_item.contenido|slice:":100" }}...</p>
                     
-                    {# <img src="{{ post_item.imagen.url }}" class="card-img-top" alt="..."> #}
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">{{ post_item.titulo }}</h5>
-                        <p class="card-text">{{ post_item.contenido|slice:":100" }}...</p> 
-                        
+                    <div class="d-flex justify-content-between align-items-center mb-2">
                         <a href="{% url 'detalle_post_url' post_item.id %}" class="btn btn-sm btn-primary">Leer más</a>
-                    
+                        
                         {% if request.user == post_item.autor %}
-                            <a href="{% url 'eliminar_post' post_item.id %}" class="btn btn-sm btn-danger float-end" 
-                            onclick="return confirm('¿Estás seguro?')">
-                            Eliminar
-                            </a>
+                            <div>
+                                <a href="{% url 'editar_post' post_item.id %}" class="btn btn-sm btn-warning">Editar</a>
+                                <a href="{% url 'eliminar_post' post_item.id %}" class="btn btn-sm btn-danger" 
+                                   onclick="return confirm('¿Estás seguro?')">Eliminar</a>
+                            </div>
                         {% endif %}
                     </div>
+
+                    <!-- Categorías -->
+                    <div class="mb-2">
+                        {% for categoria in post_item.categoria.all %}
+                            <a href="{% url 'categoria' categoria.id %}">
+                                <span class="badge bg-secondary">{{ categoria.nombre|escape }}</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Likes / Dislikes -->
+                    {% if user.is_authenticated %}
+                    <div class="d-flex justify-content-around align-items-center mb-2">
+                        <button class="btn btn-sm btn-outline-success like-btn" 
+                                data-post-id="{{ post_item.id }}" 
+                                data-es-like="true">
+                            👍 <span id="likes-{{ post_item.id }}">{{ post_item.likes_count|default:0 }}</span>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger like-btn" 
+                                data-post-id="{{ post_item.id }}" 
+                                data-es-like="false">
+                            👎 <span id="dislikes-{{ post_item.id }}">{{ post_item.dislikes_count|default:0 }}</span>
+                        </button>
+                    </div>
+                    {% endif %}
+
+                    
+
                 </div>
             </div>
+        </div>
 
         {% empty %}
             <div class="col-12 text-center mt-5">
@@ -54,20 +86,124 @@
                     <p>Intenta buscar otra cosa o <a href="{% url 'Blog' %}">ver todos los posts</a>.</p>
                 </div>
             </div>
-
-        {% endfor %}
-        
-    </div> </div>
-
-<section>
-    <div style="width: 75%; margin: 0 auto; text-align: center; color: rgb(54, 49, 49);">
-        <h4>CATEGORÍAS DE LOS POSTS:</h4>
-        {% for post_item in Post %}
-            {% for categoria in post_item.categoria.all %}
-                <a href="{% url 'categoria' categoria.id %}"><span class="badge bg-secondary">{{ categoria.nombre }} </span> </a> &nbsp;&nbsp;&nbsp;
-            {% endfor %}
         {% endfor %}
     </div>
-</section>
+
+</div>
+
+<script>
+// JavaScript para AJAX - CON URLS DESDE DATA ATTRIBUTES
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// EVENT DELEGATION para likes (más eficiente)
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.like-btn')) {
+        const button = e.target.closest('.like-btn');
+        const postId = button.dataset.postId;
+        const esLike = button.dataset.esLike === 'true';
+        
+        console.log(`🎯 LIKE CLICK - Post:${postId} EsLike:${esLike}`);
+        
+        const csrftoken = getCookie('csrftoken');
+        button.disabled = true;
+        
+        // URL desde data attribute
+        const url = button.closest('.col-md-3').dataset.likeUrl;
+        console.log(`🌍 URL LIKE: ${url}`);
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `es_like=${esLike}`
+        })
+        .then(response => {
+            console.log(`📡 RESPONSE STATUS: ${response.status}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.json();
+        })
+        .then(data => {
+            console.log(`✅ DATA:`, data);
+            document.getElementById(`likes-${postId}`).textContent = data.likes;
+            document.getElementById(`dislikes-${postId}`).textContent = data.dislikes;
+            button.disabled = false;
+        })
+        .catch(error => {
+            console.error('❌ ERROR:', error);
+            alert('Error: ' + error.message);
+            button.disabled = false;
+        });
+    }
+});
+
+// EVENT DELEGATION para comentarios
+document.addEventListener('submit', function(e) {
+    if (e.target.classList.contains('comment-form')) {
+        e.preventDefault();
+        const form = e.target;
+        const postId = form.dataset.postId;
+        const input = form.querySelector('input[name="contenido"]');
+        const contenido = input.value.trim();
+        
+        if (!contenido) {
+            alert('Comentario vacío');
+            return;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        
+        // URL desde data attribute
+        const url = form.closest('.col-md-3').dataset.commentUrl;
+        console.log(`🌍 URL COMENTARIO: ${url}`);
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `contenido=${encodeURIComponent(contenido)}`
+        })
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                const container = document.getElementById(`comments-${postId}`);
+                const newComment = document.createElement('small');
+                newComment.className = 'd-block';
+                newComment.innerHTML = `<strong>${data.autor}:</strong> ${data.contenido}`;
+                container.insertBefore(newComment, container.firstChild);
+                input.value = '';
+            }
+            submitBtn.disabled = false;
+        })
+        .catch(error => {
+            console.error('❌ ERROR:', error);
+            alert('Error: ' + error.message);
+            submitBtn.disabled = false;
+        });
+    }
+});
+</script>
 
 {% endblock %}
